@@ -1,5 +1,5 @@
 # ai_chat_bot
-An A.I. chat bot that responds to almost anything the user says. It also expresses visual emotions!
+An A.I. chat bot that responds to anything the user says. It also expresses visual emotions!
 It begins by taking the user's input and putting it through a series of filters:
 
 1. The first filter checks if the user input is exactly the same as the pre-written to which it will respond to the user
