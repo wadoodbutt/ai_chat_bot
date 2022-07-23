@@ -1,7 +1,8 @@
 import java.util.*;
 /* This class is how the bot responds and changes emotion base on what the user says. Although the code seems hard-coded
  * to respond on what exactly the user says, it does not. The user's input first goes through the top layer which is
- * predicting exactly or at least most of the user says with a 100% confidence rate, sentences map. The next layer is
+ * predicting exactly or at least most of the user says with a 100% confidence rate, sentences map. The next layer will check
+ * for certain phrasing. The third layer will check for keywords. The last layer will have the bot simply ask the input means.
  *
  */
 public class Bot {
