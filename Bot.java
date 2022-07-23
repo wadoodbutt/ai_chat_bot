@@ -11,6 +11,7 @@ public class Bot {
     static String[] advice = new String[5];
     Random r;
 
+    Map<String, String> responseCues = new HashMap<>(); // Cues that trigger responses
     Set<String> responseMode = new HashSet<>(); // Set of responses
     Map<String, Set<String>> lastResorts = new HashMap<>(); // Spits out an input with very little information from user
     Map<String, String> sentences = new HashMap<>(); // Full sentences to check before going detecting key phrases
@@ -348,8 +349,14 @@ public class Bot {
         return advice[rng];
     }
 
-    public String response(String input) {
+     public String response(String input) {
         String respond = "  I'm not sure I understand :(\n  What should I say when you say '" + input + "'?";
+        if (!(nextBotOutput.equals(""))) {
+            respond = nextBotOutput;
+            nextBotOutput = "";
+            System.out.println(respond);
+            return respond;
+        }
         for (String possibleResponse : sentences.keySet()) {
             if (input.toLowerCase(Locale.ROOT).contains(possibleResponse)) {
                 respond = sentences.get(possibleResponse);
@@ -365,11 +372,8 @@ public class Bot {
             }
         }
         // Response Mode
-        if (respond.contains("tell me")) {
-            for (String possibleResponse : responseMode) {
-                respond = possibleResponse;
-                break;
-            }
+        if (respond.contains("tell me") || respond.contains("Tell me") ) {
+            automatedResponse(respond);
         }
         if (respond.equals("  I'm not sure I understand :(\n  What should I say when you say '" + input + "'?")) {
             for (String possibleResponse : lastResorts.keySet()) {
@@ -413,6 +417,17 @@ public class Bot {
         botUnderstands = true;
         if (!(broca.containsKey(input))) {
             broca.put(input, meaningOfInput);
+        }
+    }
+    // When the bot enters response mode, it will have a series of responses to choose instead the typical bank from that will further the conversation
+    public void automatedResponse(String respond) {
+        if (responseCues.containsKey(respond)) {
+            nextBotOutput = responseCues.get(respond);
+        } else {
+            for (String possibleResponse : responseMode) {
+                nextBotOutput = possibleResponse;
+                break;
+            }
         }
     }
 
